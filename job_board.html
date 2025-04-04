@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Job Application Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .hidden { display: none; }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+
+  <!-- Home Page -->
+  <section id="homePage" class="min-h-screen px-6 py-12">
+    <h1 class="text-3xl font-bold text-center text-indigo-700 mb-10">Explore Job Openings</h1>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div onclick="showJob('software')" class="bg-white p-6 rounded shadow cursor-pointer hover:shadow-lg">
+        <h2 class="text-xl font-semibold text-blue-600">Software Engineer</h2>
+        <p class="text-gray-700 mt-2">Join our team of innovators and build software that impacts businesses worldwide.</p>
+		 View Details
+        </a>
+      </div>
+      <div onclick="showJob('product')" class="bg-white p-6 rounded shadow cursor-pointer hover:shadow-lg">
+        <h2 class="text-xl font-semibold text-green-600">Product Manager</h2>
+        <p class="text-gray-700 mt-2">Lead product strategy and drive cross-functional teams to deliver exceptional value.</p>
+		View Details
+        </a>
+      </div>
+      <div onclick="showJob('ux')" class="bg-white p-6 rounded shadow cursor-pointer hover:shadow-lg">
+        <h2 class="text-xl font-semibold text-purple-600">UX Designer</h2>
+        <p class="text-gray-700 mt-2">Craft intuitive and delightful user experiences in a fast-paced product environment.</p>
+		View Details
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Job Pages -->
+  <section id="jobPage" class="hidden px-6 py-12">
+    <button onclick="backToHome()" class="mb-6 bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">← Back</button>
+    <div id="jobContent" class="bg-white p-6 rounded shadow-lg max-w-3xl mx-auto"></div>
+  </section>
+
+  <!-- Confirmation -->
+  <section id="confirmationPage" class="hidden min-h-screen flex items-center justify-center">
+    <div class="bg-white p-10 rounded-lg shadow-lg text-center max-w-md">
+      <h1 class="text-3xl font-bold text-green-600 mb-4">Thank You!</h1>
+      <p class="text-gray-700 text-lg mb-6">Your application has been submitted successfully.</p>
+      <button onclick="backToHome()" class="bg-indigo-600 text-white px-6 py-2 rounded hover:bg-indigo-700">Back to Home</button>
+    </div>
+  </section>
+
+  <!-- Script Logic -->
+  <script>
+    function showJob(role) {
+      const jobDetails = {
+        software: {
+          title: "Software Engineer",
+          color: "blue",
+          desc: "Design and develop scalable web apps using React, APIs, and modern frameworks.",
+          reqs: [
+            "Proficiency in JavaScript, HTML, and CSS",
+            "Experience with React or Vue.js",
+            "REST API & Git familiarity"
+          ]
+        },
+        product: {
+          title: "Product Manager",
+          color: "green",
+          desc: "Own product vision, manage sprints, and align with business goals.",
+          reqs: [
+            "Experience working in Agile environments",
+            "Excellent communication and leadership skills",
+            "Customer-first mindset"
+          ]
+        },
+        ux: {
+          title: "UX Designer",
+          color: "purple",
+          desc: "Create seamless and beautiful experiences based on user research and data.",
+          reqs: [
+            "Tools: Figma, Adobe XD, Sketch",
+            "Portfolio showcasing UX projects",
+            "User research & usability testing"
+          ]
+        }
+      };
+
+      const job = jobDetails[role];
+      const content = `
+        <h2 class="text-2xl font-semibold text-${job.color}-600 mb-2">${job.title}</h2>
+        <p class="text-gray-700 mb-4">${job.desc}</p>
+        <h3 class="text-lg font-semibold mt-4 mb-2">Requirements:</h3>
+        <ul class="list-disc list-inside text-gray-700 mb-6">
+          ${job.reqs.map(req => `<li>${req}</li>`).join("")}
+        </ul>
+        <form onsubmit="showConfirmation(event)" class="space-y-4">
+          <input type="text" name="name" placeholder="Your Name" class="w-full p-2 border border-gray-300 rounded" required />
+          <input type="email" name="email" placeholder="Your Email" class="w-full p-2 border border-gray-300 rounded" required />
+          <input type="tel" id="phone" placeholder="Your phone Number" class="w-full p-2 border rounded-lg" required>
+		  <textarea id="address" placeholder="Your Address" class="w-full p-2 border rounded-lg" required></textarea>
+		  <input type="text" id="degree" placeholder="Graduation details" class="w-full p-2 border rounded-lg" required>
+		  <input type="number" id="gradYear" placeholder="Graduation Year" class="w-full p-2 border rounded-lg" required>
+          <input type="file" name="resume" required class="w-full p-2 border border-gray-300 rounded bg-white" />
+          <button type="submit" class="bg-${job.color}-600 text-white px-4 py-2 rounded hover:bg-${job.color}-700">Apply Now</button>
+        </form>
+      `;
+
+      document.getElementById("homePage").classList.add("hidden");
+      document.getElementById("confirmationPage").classList.add("hidden");
+      document.getElementById("jobPage").classList.remove("hidden");
+      document.getElementById("jobContent").innerHTML = content;
+    }
+
+    function showConfirmation(event) {
+      event.preventDefault();
+      document.getElementById("jobPage").classList.add("hidden");
+      document.getElementById("confirmationPage").classList.remove("hidden");
+    }
+
+    function backToHome() {
+      document.getElementById("homePage").classList.remove("hidden");
+      document.getElementById("jobPage").classList.add("hidden");
+      document.getElementById("confirmationPage").classList.add("hidden");
+    }
+  </script>
+</body>
+</html>
